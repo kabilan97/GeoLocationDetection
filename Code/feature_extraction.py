@@ -65,25 +65,16 @@ def get_colorhist(im_list):
     return features
 
 def get_sift_features(im_list):
-    """get_sift_features accepts a list of image names and computes the sift descriptos for each image. It returns a dictionary with descriptor as value and image name as key """
+    """get_sift_features accepts an image and computes the sift descriptos. It returns a dictionary with descriptor as value and image name as key """
     sift = cv2.xfeatures2d.SIFT_create()
     features = {}
-    total = len(im_list)
-    bar = progressbar.ProgressBar(maxval=total, \
-            widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
     count = 0
-    print 'Generating SIFT features for [', total, '] images ...'
-    bar.start()
-    for im_name in im_list:
-        bar.update(count)
-        # load grayscale image
-        im = cv2.imread(im_name, 0)
-        kp, desc = sift.detectAndCompute(im, None)
-        features[im_name] = desc
-        count += 1
-    bar.finish()
+    kp, desc = sift.detectAndCompute(im_list, None)
+    features[0] = desc
+    count += 1
     return features
-    
+   
+
 # extract tags
 def extract_tags(filename):
     try:
